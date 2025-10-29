@@ -1,6 +1,8 @@
 {
+  "version": 2,
   "functions": {
-    "api/bot.ts": {
+    "api/**/*.ts": {
+      "runtime": "nodejs18.x",
       "memory": 1024,
       "maxDuration": 10
     }
@@ -11,5 +13,10 @@
       "use": "@vercel/node"
     }
   ],
-  "outputDirectory": "build"
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1.ts"
+    }
+  ]
 }
