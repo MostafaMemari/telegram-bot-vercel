@@ -8,11 +8,20 @@ if (!token) throw new Error("BOT_TOKEN is unset");
 
 const bot = new Bot(token);
 
-// دستور /start
 bot.command("start", (ctx) => ctx.reply("سلام! ربات شما آماده است 🚀"));
-
-// هر پیام دیگه رو جواب بده
 bot.on("message:text", (ctx) => ctx.reply(`پیام شما: ${ctx.message.text}`));
 
-// export برای Vercel
-export default webhookCallback(bot, "https");
+const isDev = process.env.NODE_ENV !== "production";
+
+if (isDev) {
+  // در حالت توسعه از polling استفاده کن
+  bot.start();
+  console.log("🤖 Bot running locally with long polling...");
+}
+
+// همیشه یک export داشته باش
+export default isDev
+  ? // در حالت dev، یک هندلر خنثی برگردون تا Vercel مشکلی نداشته باشه
+    () => new Response("Running in development mode")
+  : // در حالت production، webhook واقعی
+    webhookCallback(bot, "https");
