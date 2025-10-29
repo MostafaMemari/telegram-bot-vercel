@@ -15,4 +15,4 @@ bot.command("start", (ctx) => ctx.reply("سلام! ربات شما آماده ا
 bot.on("message:text", (ctx) => ctx.reply(`پیام شما: ${ctx.message.text}`));
 
 // export برای Vercel
-export default webhookCallback(bot, "std/http");
+export default webhookCallback(bot, "https");
