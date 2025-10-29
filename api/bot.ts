@@ -14,14 +14,8 @@ bot.on("message:text", (ctx) => ctx.reply(`پیام شما: ${ctx.message.text}`
 const isDev = process.env.NODE_ENV !== "production";
 
 if (isDev) {
-  // در حالت توسعه از polling استفاده کن
   bot.start();
   console.log("🤖 Bot running locally with long polling...");
 }
 
-// همیشه یک export داشته باش
-export default isDev
-  ? // در حالت dev، یک هندلر خنثی برگردون تا Vercel مشکلی نداشته باشه
-    () => new Response("Running in development mode")
-  : // در حالت production، webhook واقعی
-    webhookCallback(bot, "https");
+export default isDev ? () => new Response("Running in development mode") : webhookCallback(bot, "https");
